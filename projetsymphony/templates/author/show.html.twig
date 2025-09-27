@@ -1,0 +1,27 @@
+{{nom}}
+{% set a="Hello3" %}
+{{nom | upper}}
+{{'&HELLo' |lower|trim ('&') }}
+{% set a="Hello"%}
+
+
+{{ a }}
+
+{# Ceci un commentaire #}
+{% for i in 0..9 %}
+{{ i }}
+{% endfor %}
+
+{% set hour=14 %}
+{% if hour < 12%}
+<p>Bonjour ! <p/>
+{% elseif hour <18 %}
+<p> bon aprés-midi !</p>
+{% else %}
+<p> ..<p/>
+{% endif %}
+
+{% if 'fabien' starts with 'F' %}
+commence par fabien{% endif %}
+<a href="{{path('app_author')}}">Link1</a>
+<a href="{{url('app_author')}}">Link2</a>
