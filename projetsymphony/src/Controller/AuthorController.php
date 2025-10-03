@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\AuthorRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,5 +38,13 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
     ]);
 
 }
-
+#[Route('/showAll', name: 'app_show_all')]
+    public function showAll(AuthorRepository $repo){
+        $authors=$repo->findAll();
+        return $this->render('author/showAll.html.twig',[
+            'list'=>$authors
+        ]);
+        
+    }
 }
+
