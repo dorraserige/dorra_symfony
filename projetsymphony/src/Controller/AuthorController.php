@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 use App\Repository\AuthorRepository;
+use Doctrine\Persistence\ManagerRegistry; // ✅ Correct
+use App\Entity\Author;
+
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,5 +50,27 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         ]);
         
     }
+
+
+
+#[Route(path: '/add', name: 'add')]
+    public function add(ManagerRegistry $doctrine): Response{
+        $author=new Author();
+        $author->setEmail(email: 'foulen@esprit.tn');
+        $author->setUsername(username: 'foulen');
+        $em = $doctrine->getManager();
+        $em->persist(object: $author);
+        $em->flush();
+        //return new Response(content: "Author added successfully");
+        return $this->redirectToRoute(route: 'app_show_all');
+      
+        
+    }
+
+
+
+
+
+    
 }
 
