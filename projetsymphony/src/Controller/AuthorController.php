@@ -42,7 +42,7 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
     ]);
 
 }
-#[Route('/showAll', name: 'app_show_all')]
+#[Route('/showAll', name: 'showAll')]
     public function showAll(AuthorRepository $repo){
         $authors=$repo->findAll();
         return $this->render('author/showAll.html.twig',[
@@ -62,15 +62,40 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         $em->persist(object: $author);
         $em->flush();
         //return new Response(content: "Author added successfully");
-        return $this->redirectToRoute(route: 'app_show_all');
+        return $this->redirectToRoute(route: 'showAll');
       
         
     }
 
 
+#[Route(path: '/deleteAuthor/{id}', name: 'deleteAuthor')]
+public function deleteAuthor($id, AuthorRepository $repo, ManagerRegistry $doctrine): Response
+{
+    $author = $repo->find($id);
 
+    if (!$author) {
+        // Si aucun auteur trouvé, afficher une erreur claire
+        throw $this->createNotFoundException("Aucun auteur trouvé avec l'ID $id");
+    }
 
+    $em = $doctrine->getManager();
+    $em->remove($author);
+    $em->flush();
 
-    
+    $this->addFlash('success', 'Auteur supprimé avec succès !');
+
+    return $this->redirectToRoute('app_show_all');
 }
 
+
+
+
+#[Route(path: '/showDetails/{id}', name: 'showDetails')]
+    public function showDetails($id, AuthorRepository $repo): Response{
+        $author=$repo->find(id: $id);
+        return $this->render(view: 'author/showDetails.html.twig',parameters: ['author'=>$author]);
+
+
+}
+
+}

@@ -11,10 +11,12 @@
             <td>{{ author.id }}</td>
             <td>{{ author.username }}</td>
             <td>{{ author.email }}</td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="3">Aucun auteur trouvé.</td>
+            <td>
+            <a href="{{path ('deleteAuthor',{'id':author.id})}}">Delete</a>
+            <a href="{{path ('showDetails',{'id':author.id})}}">Show</a>
+            <a href=""> Update </a>
+            </td>
+        
         </tr>
     {% endfor %}
 </table>
