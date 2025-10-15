@@ -1,4 +1,5 @@
 <?php
+// src/Entity/Author.php
 
 namespace App\Entity;
 
@@ -32,7 +33,6 @@ class Author
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -44,7 +44,6 @@ class Author
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 }

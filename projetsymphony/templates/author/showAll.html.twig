@@ -1,22 +1,46 @@
-<h1>Liste des auteurs</h1>
+{# templates/author/showAll.html.twig #}
+{% extends 'base.html.twig' %}
 
-<table border="1" cellpadding="5">
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-    </tr>
-    {% for author in list %}
-        <tr>
-            <td>{{ author.id }}</td>
-            <td>{{ author.username }}</td>
-            <td>{{ author.email }}</td>
-            <td>
-            <a href="{{path ('deleteAuthor',{'id':author.id})}}">Delete</a>
-            <a href="{{path ('showDetails',{'id':author.id})}}">Show</a>
-            <a href=""> Update </a>
-            </td>
-        
-        </tr>
+{% block title %}Liste des Auteurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des auteurs</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
     {% endfor %}
-</table>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in list %}
+                <tr>
+                    <td>{{ author.id }}</td>
+                    <td>{{ author.username }}</td>
+                    <td>{{ author.email }}</td>
+                    <td>
+                        <a href="{{ path('showDetails', {'id': author.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{{ path('deleteAuthor', {'id': author.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet auteur ?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">Aucun auteur trouvé</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('addForm') }}" class="btn btn-primary">
+        Ajouter un nouvel auteur
+    </a>
+{% endblock %}
