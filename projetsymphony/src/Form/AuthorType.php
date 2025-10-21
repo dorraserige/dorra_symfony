@@ -1,15 +1,14 @@
 <?php
-// src/Form/AuthorType.php
 
 namespace App\Form;
 
 use App\Entity\Author;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AuthorType extends AbstractType
 {
@@ -17,16 +16,17 @@ class AuthorType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Nom d\'utilisateur'
+                'label' => "Nom d'utilisateur",
+                'required' => true,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Adresse email',
+                'required' => true,
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Ajouter l\'auteur',
-                'attr' => ['class' => 'btn btn-primary']
-            ])
-        ;
+            ->add('nbBooks', IntegerType::class, [
+                'label' => 'Nombre de livres',
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

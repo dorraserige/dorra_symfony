@@ -1,8 +1,8 @@
 <?php
-// src/Entity/Author.php
 
 namespace App\Entity;
 
+use App\Entity\Book;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,6 +25,8 @@ class Author
     #[ORM\Column]
     private ?int $nb_books = null;
 
+    
+
     /**
      * @var Collection<int, Book>
      */
@@ -34,6 +36,7 @@ class Author
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->book = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,7 +74,6 @@ class Author
     public function setNbBooks(int $nb_books): static
     {
         $this->nb_books = $nb_books;
-
         return $this;
     }
 
@@ -96,7 +98,6 @@ class Author
     public function removeBook(Book $book): static
     {
         if ($this->books->removeElement($book)) {
-            // set the owning side to null (unless already changed)
             if ($book->getAuthor() === $this) {
                 $book->setAuthor(null);
             }
@@ -104,4 +105,10 @@ class Author
 
         return $this;
     }
+
+   public function __toString()
+   {
+    return(string)$this->getUsername();
+   }
+
 }

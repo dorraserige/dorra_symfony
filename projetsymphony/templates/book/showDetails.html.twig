@@ -1,0 +1,8 @@
+<h1>Détails du Livre</h1>
+
+<p><strong>Id:</strong> {{ book.id }}</p>
+<p><strong>Title:</strong> {{ book.title }}</p>
+<p><strong>Publication Year:</strong> {{ book.publicationYear|date('Y-m-d') }}</p>
+<p><strong>Author:</strong> {{ book.author.userName }}</p>
+
+<a href="{{ path('list_books') }}">Retour à la liste</a>

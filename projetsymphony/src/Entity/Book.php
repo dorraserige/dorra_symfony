@@ -18,13 +18,14 @@ class Book
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $publicationDate = null;
+    private ?\DateTime $publicationYear = null;
 
-    #[ORM\Column]
-    private ?bool $enabled = null;
-
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(inversedBy: 'book')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Author $author = null;
+
+  
+   
 
     public function getId(): ?int
     {
@@ -43,26 +44,14 @@ class Book
         return $this;
     }
 
-    public function getPublicationDate(): ?\DateTime
+    public function getPublicationYear(): ?\DateTime
     {
-        return $this->publicationDate;
+        return $this->publicationYear;
     }
 
-    public function setPublicationDate(\DateTime $publicationDate): static
+    public function setPublicationYear(\DateTime $publicationYear): static
     {
-        $this->publicationDate = $publicationDate;
-
-        return $this;
-    }
-
-    public function isEnabled(): ?bool
-    {
-        return $this->enabled;
-    }
-
-    public function setEnabled(bool $enabled): static
-    {
-        $this->enabled = $enabled;
+        $this->publicationYear = $publicationYear;
 
         return $this;
     }

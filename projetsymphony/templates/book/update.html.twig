@@ -1,0 +1,8 @@
+<h1>Modifier le Livre</h1>
+
+{{ form_start(formulaireBook) }}
+    {{ form_widget(formulaireBook) }}
+    <button type="submit">Mettre à jour</button>
+{{ form_end(formulaireBook) }}
+
+<a href="{{ path('list_books') }}">Retour à la liste</a>

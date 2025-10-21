@@ -1,32 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Auteurs{% endblock %}
+{% block title %}Liste des Livres{% endblock %}
 
 {% block body %}
-    <h1>Liste des Auteurs</h1>
+    <h1 style="text-align: center;">Liste des Livres</h1>
 
-    <table border="1" cellpadding="10">
+    <table border="1" style="margin: auto; border-collapse: collapse; width: 80%;">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Photo</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Nombre de livres</th>
+                <th>Titre</th>
+                <th>Date de publication</th>
+                <th>Publié</th>
+                <th>Auteur</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for author in authors %}
+            {% for book in books %}
                 <tr>
-                    <td>{{ author.id }}</td>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.publicationDate ? book.publicationDate|date('Y-m-d') : '—' }}</td>
+                    <td>{{ book.published ? 'Oui' : 'Non' }}</td>
+                    <td>{{ book.author ? book.author.fullname ?? book.author.username ?? book.author.id : '—' }}</td>
                     <td>
-                        <img src="{{ author.picture }}" alt="{{ author.username }}" width="100">
+                        <a href="{{ path('book_edit', {'id': book.id}) }}">Modifier</a>
+                        |
+                        <a href="{{ path('book_delete', {'id': book.id}) }}"
+                           onclick="return confirm('Voulez-vous vraiment supprimer ce livre ?');">
+                           Supprimer
+                        </a>
                     </td>
-                    <td>{{ author.username }}</td>
-                    <td>{{ author.email }}</td>
-                    <td>{{ author.nb_books }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">Aucun livre trouvé</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('addbook') }}">Ajouter un nouveau livre</a>
+    </div>
 {% endblock %}
+book.id

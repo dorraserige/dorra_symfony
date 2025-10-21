@@ -1,0 +1,28 @@
+<h1>List Of Books</h1>
+<table border="1">
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Date</td>
+       
+        <td>Author</td>
+        <td>Actions</td>
+    </tr>
+
+    {% for book in books %}
+    <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.publicationYear|date }}</td>
+        <td>{{ book.author }}</td>
+        <td>
+        <a href="{{ path('updateBook', {'id': book.id}) }}">Update</a>
+        <a href="{{ path('deleteBook', {'id': book.id}) }}"
+        onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">Delete</a>
+        
+         <a href="{{ path('showBook', {'id': book.id}) }}">Show</a>
+         
+   
+    </tr>
+    {% endfor %}
+</table>
