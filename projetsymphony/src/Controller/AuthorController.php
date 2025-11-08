@@ -140,4 +140,103 @@ class AuthorController extends AbstractController
             'author' => $author
         ]);
     }
+
+
+//////////////////
+
+
+
+
+
+// Ajoutez cette méthode dans votre AuthorController existant
+#[Route('/updateAuthor/{id}', name: 'updateAuthor')]
+public function updateAuthor(int $id, Request $request, AuthorRepository $repo, ManagerRegistry $doctrine): Response
+{
+    $author = $repo->find($id);
+
+    if (!$author) {
+        throw $this->createNotFoundException("Aucun auteur trouvé avec l'ID $id");
+    }
+
+    $form = $this->createForm(AuthorType::class, $author);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $em = $doctrine->getManager();
+        $em->flush();
+
+        $this->addFlash('success', 'Auteur modifié avec succès !');
+        return $this->redirectToRoute('showAll');
+    }
+
+    return $this->render('author/update.html.twig', [
+        'form' => $form->createView()
+    ]);
+}
+
+
+/////////////////
+
+
+#[Route('/searchAuthors', name: 'searchAuthors')]
+public function searchAuthors(Request $request, AuthorRepository $repo): Response
+{
+    $minBooks = $request->query->get('minBooks');
+    $maxBooks = $request->query->get('maxBooks');
+    
+    $authors = [];
+    
+    if ($minBooks !== null && $maxBooks !== null) {
+        $authors = $repo->findByBookRange($minBooks, $maxBooks);
+    }
+
+    return $this->render('author/list.html.twig', [
+        'authors' => $authors,
+        'minBooks' => $minBooks,
+        'maxBooks' => $maxBooks
+    ]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////
+
+
+// Dans AuthorController.php, ajoutez cette méthode :
+
+#[Route('/authors/by-email', name: 'authors_by_email')]
+public function listAuthorsByEmail(AuthorRepository $repo): Response
+{
+    $authors = $repo->listAuthorByEmail();
+
+    return $this->render('author/listByEmail.html.twig', [
+        'authors' => $authors
+    ]);
+}
+
+///////////////////
+
+
+ #[Route('/showAllAuthorsDQL', name: 'showAllAuthorsDQL')]
+    public function showAllAuthorsDQL(AuthorRepository $repo): Response
+    {
+        $authors = $repo->showAllAuthorsDQL();
+        return $this->render('author/showAll.html.twig', [
+            'list' => $authors
+        ]);
+    }
+
+
+
+    
 }

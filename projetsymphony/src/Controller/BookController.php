@@ -131,7 +131,92 @@ public function updateBook(int $id, Request $request, BookRepository $repo, Mana
 }
 
 
+
+
+
+
+
+
+
+
+// Dans BookController.php, modifiez la méthode searchBook :
+
+#[Route('/search-book', name: 'search_book')]
+public function searchBook(Request $request, BookRepository $bookRepo): Response
+{
+    $ref = $request->query->get('ref', '');
+    $books = [];
+
+    if (!empty($ref)) {
+        $book = $bookRepo->searchBookByRef($ref);
+        $books = $book ? [$book] : [];
+    }
+
+    return $this->render('book/list.html.twig', [
+        'books' => $books,
+        'searchRef' => $ref
+    ]);
 }
+
+
+
+/////////////
+
+
+// Dans BookController.php, ajoutez ces méthodes :
+
+#[Route('/books/count/romance', name: 'books_count_romance')]
+public function countRomanceBooks(BookRepository $bookRepo): Response
+{
+    $count = $bookRepo->countBooksByCategory('Romance');
+    // Ou en DQL pure :
+    // $count = $bookRepo->countRomanceBooksDQL();
+
+    return $this->render('book/count_romance.html.twig', [
+        'count' => $count,
+        'category' => 'Romance'
+    ]);
+}
+
+#[Route('/books/between-dates', name: 'books_between_dates')]
+public function booksBetweenDates(BookRepository $bookRepo): Response
+{
+    $startDate = new \DateTime('2014-01-01');
+    $endDate = new \DateTime('2018-12-31');
+    
+    $books = $bookRepo->findBooksBetweenDates($startDate, $endDate);
+    // Ou en DQL pure :
+    // $books = $bookRepo->findBooksBetweenDatesDQL($startDate, $endDate);
+
+    return $this->render('book/books_between_dates.html.twig', [
+        'books' => $books,
+        'startDate' => $startDate,
+        'endDate' => $endDate
+    ]);
+}
+//////////////
+
+}
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
    

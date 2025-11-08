@@ -1,11 +1,12 @@
 <?php
+// src/Form/AuthorType.php
 
 namespace App\Form;
 
-use App\Entity\Author;
 use Symfony\Component\Form\AbstractType;
+use App\Entity\Author;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType; // Assurez-vous que c'est bien importé
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
